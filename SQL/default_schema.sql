@@ -12,6 +12,7 @@ CREATE TABLE `location` (
 	`geolat` float(10,4) NOT NULL default '0',
 	`geolng` float(10,4) NOT NULL default '0',
 	`overall_happiness` float(4,2) default NULL,
+	`number_of_entries` int(8) default 0,
 	PRIMARY KEY (`geolat`, `geolng`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
