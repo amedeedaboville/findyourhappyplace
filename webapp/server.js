@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 var app = express();
 
 var testvals = [
@@ -11,9 +12,14 @@ var testvals = [
         [45.513, -73.556, 2],
         [45.514, -73.513, 1]
 ];
+app.get('/', function(req, res){
+      res.sendfile('./index.html');
+});
 app.get('/data', function(req, res){
       res.send(testvals);
 });
+
+//app.use(express.static(path.join(__dirname, 'html')));
 
 var server = app.listen(3000, function() {
         console.log('Listening on port %d', server.address().port);
