@@ -57,7 +57,6 @@ map = new google.maps.Map(document.getElementById('map-canvas'), {
   center: Montreal,
   zoom: 18,
   mapTypeId: google.maps.MapTypeId.TERRAIN
->>>>>>> 8c199872828a5903d842e4d069de61c88ecadba8
 });
 
 var heatmap = new google.maps.visualization.HeatmapLayer({
