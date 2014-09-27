@@ -11,7 +11,7 @@
     <title>Happy Place</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="starter-template.css" rel="stylesheet">
@@ -44,14 +44,14 @@
     	<script type="text/javascript">
       		function initialize() {
         		var heatMapData = [
-				{location: new google.maps.LatLng(45.501, 73.506), weight: 3},
-				{location: new google.maps.LatLng(45.234, 73.213), weight: 1}
+				{location: new google.maps.LatLng(45.507, -73.556), weight: 3},
+				{location: new google.maps.LatLng(45.514, -73.513), weight: 1}
 			];
-			var montreal = new google.maps.LatLng(45.500, 73.566);
+			var montreal = new google.maps.LatLng(45.507936, -73.553400);
 			var mapOptions = {
           			center: montreal,
-          			zoom: 10,
-				mapTypeId: google.maps.MapTypeId.SATELLITE
+          			zoom: 24,
+				mapTypeId: google.maps.MapTypeId.TERRAIN
         		};
         		var map = new google.maps.Map(document.getElementById('map-canvas'),
             		mapOptions);
