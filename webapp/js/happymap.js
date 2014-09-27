@@ -1,3 +1,96 @@
+map_style = [
+    {
+        "featureType": "water",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#acbcc9"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "stylers": [
+            {
+                "color": "#f2e5d4"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#c5c6c6"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#e4d7c6"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#fbfaf7"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#c5dac6"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": 33
+            }
+        ]
+    },
+    {
+        "featureType": "road"
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {},
+    {
+        "featureType": "road",
+        "stylers": [
+            {
+                "lightness": 20
+            }
+        ]
+    }
+];
+
 /*
 // AJAX to get scan line chart data
 $.ajax({
@@ -17,31 +110,9 @@ var data = "[[45.507,-73.556,3],[45.508,-73.556,3],[45.509,-73.556,2],[45.51,-73
 
 var JSONdata = $.parseJSON(data);
 var outarray = [];
-/*
-var heatMapData = [
-  {location: new google.maps.LatLng(37.782, -122.447), weight: 0.5},
-  new google.maps.LatLng(37.782, -122.445),
-  {location: new google.maps.LatLng(37.782, -122.443), weight: 2},
-  {location: new google.maps.LatLng(37.782, -122.441), weight: 3},
-  {location: new google.maps.LatLng(37.782, -122.439), weight: 2},
-  new google.maps.LatLng(37.782, -122.437),
-  {location: new google.maps.LatLng(37.782, -122.435), weight: 0.5},
 
-  {location: new google.maps.LatLng(37.785, -122.447), weight: 3},
-  {location: new google.maps.LatLng(37.785, -122.445), weight: 2},
-  new google.maps.LatLng(37.785, -122.443),
-  {location: new google.maps.LatLng(37.785, -122.441), weight: 0.5},
-  new google.maps.LatLng(37.785, -122.439),
-  {location: new google.maps.LatLng(37.785, -122.437), weight: 2},
-  {location: new google.maps.LatLng(37.785, -122.435), weight: 3}
-];*/
-console.log(JSONdata);
-//console.log(heatMapData);
 for (var i in JSONdata) {
-  //console.log([i[0],i[1],i[2]]);
-  //console.log([typeof i[0], typeof i[1], typeof i[2]]);
-  //console.log([parseFloat(i[0]), parseFloat(i[1]), parseFloat(i[2])]);
-  //console.log([typeof parseFloat(i[0]), typeof parseFloat(i[1]), typeof parseFloat(i[2])]);
+
   outarray.push( { location: new google.maps.LatLng(JSONdata[i][0], JSONdata[i][1]), weight: JSONdata[i][2] } );
   //outarray.push( {location: new google.maps.LatLng(parseFloat(i[0]),parseFloat(i[1])), weight: parseFloat(i[2])} );
 }
@@ -56,7 +127,8 @@ var Montreal = new google.maps.LatLng(45.5500, -73.5500);
 map = new google.maps.Map(document.getElementById('map-canvas'), {
   center: Montreal,
   zoom: 18,
-  mapTypeId: google.maps.MapTypeId.TERRAIN
+  mapTypeId: google.maps.MapTypeId.TERRAIN,
+  styles: map_style
 });
 
 var heatmap = new google.maps.visualization.HeatmapLayer({
