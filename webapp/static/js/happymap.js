@@ -94,10 +94,16 @@ map_style = [
 
 // AJAX to get map data
 $.ajax({
-    url: 'http://104.131.105.81/data',
+    url: '/data',
     type: 'post',
     success: function(data) {
         console.log(data);
+        /*var JSONdata = $.parseJSON(data);
+        var outarray = [];
+        for (var i in JSONdata) {
+            outarray.push( { location: new google.maps.LatLng(JSONdata[i][0], JSONdata[i][1]), weight: JSONdata[i][2] } );
+            makeMarker(JSONdata[i]);
+        }*/
     },
     error: function(xhr, desc, err) {
         console.log(xhr);
@@ -118,9 +124,7 @@ var JSONdata = $.parseJSON(data);
 var outarray = [];
 
 for (var i in JSONdata) {
-
   outarray.push( { location: new google.maps.LatLng(JSONdata[i][0], JSONdata[i][1]), weight: JSONdata[i][2] } );
-  //outarray.push( {location: new google.maps.LatLng(parseFloat(i[0]),parseFloat(i[1])), weight: parseFloat(i[2])} );
   makeMarker(JSONdata[i]);
 }
 
@@ -158,8 +162,6 @@ function makeMarker(x){
     		infowindow.open(map,marker);
   	});
 }
-
-console.log(outarray);
 
 /* Data points defined as a mixture of WeightedLocation and LatLng objects */
 var heatMapData = outarray;
