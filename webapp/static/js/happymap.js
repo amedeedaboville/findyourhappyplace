@@ -91,7 +91,7 @@ map_style = [
     }
 ];
 
-/*
+
 // AJAX to get map data
 $.ajax({
     url: 'http://104.131.105.81/data',
@@ -104,7 +104,6 @@ $.ajax({
         console.log("Details: " + desc + "\nError:" + err);
     }
 });
-*/
 
 map = new google.maps.Map(document.getElementById('map-canvas'), {
   center: Montreal,
@@ -127,7 +126,6 @@ for (var i in JSONdata) {
 
 function makeMarker(x){
 	var coord = new google.maps.LatLng(x[0],x[1]);
-	console.log(coord);
 	var contentString = '<div id="content">'+
 	      '<div id="siteNotice">'+
 	      '</div>'+
