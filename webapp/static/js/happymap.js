@@ -119,7 +119,7 @@ $.ajax({
         console.log(data);
         var heatMapData = [];
         for (var i in data) {
-            var n = data[i].overall_happiness + 1;
+            var n = Math.ceil(100*data[i].overall_happiness) + 1;
             for(var t = 0; t < n; t++) {
             heatMapData.push( { location: new google.maps.LatLng(data[i].geolat, data[i].geolng)} );
             }
