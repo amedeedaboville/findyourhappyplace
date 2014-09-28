@@ -2,6 +2,11 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var mysql = require('mysql');
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded()); // to support URL-encoded bodies
+app.use(express.static(path.join(__dirname + '/static')));
+
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
@@ -36,15 +41,16 @@ app.get('/data', function(req, res){
         });
 });
 
-app.post('/insert', function(req, res){
+app.post('/insert', bodyParser.urlencoded(), function(req, res){
     console.log("INSERT CALLED!");
-    console.log(req);
+    console.log(req.body);
+	res.setHeader('Content-Type', 'text/plain')
+	res.send('you posted:\n')
     //lat = req.latitude;
     //lng = req.longitude;
     //lat = req.latitute
     //mysql.insert(ltat,long, });
     });
-app.use(express.static(path.join(__dirname + '/static')));
 
 var server = app.listen(process.env.NODE_PORT, function() {
     console.log('Listening on port %d', server.address().port);
