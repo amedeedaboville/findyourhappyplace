@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Muse-io Receiver</string>
 	<string name="alpha">Alpha Values Per Channel:</string>
-	<string name="beta">Beta Values Per Channel:</string>
-	<string name="theta">Theta Values Per Channel:</string>
-	<string name="delta">Delta Values Per Channel:</string>
+    <string name="alphaTitleLeft">Alpha Power Values Left Hemisphere:</string>
+    <string name="alphaTitleRight">Alpha Power Values Right Hemisphere:</string>
 	<string name="init_val">0.0</string>
+    <string name="alphaDiffTitle">Laterality Differences Between the Two Frontal Electrodes</string>
+    <string name="Longitude">Longitude</string>
+    <string name="Latitude">Latitude</string>
+    <string name="locationButton">Get Current Location</string>
 </resources>

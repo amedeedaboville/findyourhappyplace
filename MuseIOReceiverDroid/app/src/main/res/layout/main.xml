@@ -1,170 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:textSize="15sp"
-        android:text="@string/alpha" />
-	<LinearLayout
-	    android:id="@+id/alpha_vals_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
+    android:layout_height="fill_parent"
+    android:id="@+id/MainLayout">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/TitleHeight">
+
         <TextView
-            android:id="@+id/alpha_ch1"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="@string/alphaTitleLeft"
+            android:id="@+id/TitleAlphaLeft"
+            android:layout_weight="50"
+            android:textAlignment="center"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alphaTitleRight"
+            android:id="@+id/TitleAlphaRight"
+            android:layout_weight="50"
+            android:textAlignment="center"
+            android:gravity="center_vertical|center_horizontal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp">
+
         <TextView
             android:id="@+id/alpha_ch2"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/DisplayFontParameterSize"
+            android:text="@string/init_val"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="50" />
+
         <TextView
             android:id="@+id/alpha_ch3"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
-        <TextView
-            android:id="@+id/alpha_ch4"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/DisplayFontParameterSize"
+            android:text="@string/init_val"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="50" />
+
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:textSize="15sp"
-        android:text="@string/beta" />
-	<LinearLayout
-	    android:id="@+id/beta_vals_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
-        <TextView
-            android:id="@+id/beta_ch1"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
-        <TextView
-            android:id="@+id/beta_ch2"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
-        <TextView
-            android:id="@+id/beta_ch3"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
-        <TextView
-            android:id="@+id/beta_ch4"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:textSize="15sp"
-        android:text="@string/theta" />
+
     <LinearLayout
-        android:id="@+id/theta_vals_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
         <TextView
-            android:id="@+id/theta_ch1"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/TitleHeight"
+            android:text="@string/alphaDiffTitle"
+            android:id="@+id/TitleLaterality"
+            android:textAlignment="gravity"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="50" />
+
         <TextView
-            android:id="@+id/theta_ch2"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
-        <TextView
-            android:id="@+id/theta_ch3"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
-        <TextView
-            android:id="@+id/theta_ch4"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/init_val"
+            android:id="@+id/alpha_difference"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="50dp"
+            android:layout_weight="50" />
+
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:textSize="15sp"
-        android:text="@string/delta" />
+
     <LinearLayout
-        android:id="@+id/delta_vals_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/TitleHeight"
+        android:layout_weight="0">
+
         <TextView
-            android:id="@+id/delta_ch1"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Longitude"
+            android:id="@+id/TitleLongitude"
+            android:enabled="true"
+            android:layout_weight="50"
+            android:gravity="center_vertical|center_horizontal" />
+
         <TextView
-            android:id="@+id/delta_ch2"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
-        <TextView
-            android:id="@+id/delta_ch3"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
-        <TextView
-            android:id="@+id/delta_ch4"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_weight="1"
-	        android:textSize="20sp"
-	        android:text="@string/init_val" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Latitude"
+            android:id="@+id/TitleLatitude"
+            android:layout_weight="50"
+            android:gravity="center_vertical|center_horizontal" />
+
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/init_val"
+            android:id="@+id/ValueLongitude"
+            android:layout_weight="50"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="@dimen/DisplayFontParameterSize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/init_val"
+            android:id="@+id/ValueLatitude"
+            android:layout_weight="50"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="@dimen/DisplayFontParameterSize" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/locationButton"
+        android:id="@+id/UpdateLocation"
+        android:onClick="sendMessage"/>
+
 </LinearLayout>
