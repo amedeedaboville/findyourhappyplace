@@ -1,6 +1,10 @@
 package com.interaxon.muse.museioreceiver;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -18,6 +22,14 @@ import com.google.android.gms.location.LocationClient;
 import com.interaxon.muse.museioreceiver.MuseIOReceiver.MuseConfig;
 import com.interaxon.muse.museioreceiver.MuseIOReceiver.MuseDataListener;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 /**
  * This activity is meant to display the alpha, beta, theta and delta values
  * from only one headband.
@@ -29,6 +41,7 @@ public class BrainwaveValuesActivity extends Activity implements
     private MuseIOReceiver museReceiver;
     private LocationClient mLocationClient;
     private Location mCurrentLocation;
+    private HttpClient mClient;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +51,9 @@ public class BrainwaveValuesActivity extends Activity implements
 		this.museReceiver = new MuseIOReceiver();
 		this.museReceiver.registerMuseDataListener(this);
         mLocationClient = new LocationClient(this, this, this);
-	}
+        mClient = new DefaultHttpClient();
+
+    }
     public void sendMessage(View v) {
         mCurrentLocation = mLocationClient.getLastLocation();
         ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLatitude)).setText(
@@ -78,6 +93,9 @@ public class BrainwaveValuesActivity extends Activity implements
 
 	@Override
 	public void receiveMuseElementsAlpha(MuseConfig config, final float[] alpha) {
+        final String latString =  String.format("%.6f", mCurrentLocation.getLatitude());
+        final String lngString =  String.format("%.6f", mCurrentLocation.getLongitude());
+        final String happy = String.format("%d", alpha[2] - alpha[1]);
         this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -93,15 +111,32 @@ public class BrainwaveValuesActivity extends Activity implements
                         "%.2f", (alpha[2]-alpha[1])));
                 //Update Location information
                 mCurrentLocation = mLocationClient.getLastLocation();
-                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLatitude)).setText(
-                        String.format("%.6f", mCurrentLocation.getLatitude()));
-                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLongitude)).setText(
-                        String.format("%.6f", mCurrentLocation.getLongitude()));
+                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLatitude)).setText(latString);
+                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLongitude)).setText(lngString);
 
+                HttpPost post = new HttpPost("http://yourhappyplace.net/insert");
+                List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+                pairs.add(new BasicNameValuePair("user_id", "1"));
+                pairs.add(new BasicNameValuePair("lat", latString));
+                pairs.add(new BasicNameValuePair("lng", lngString));
+                pairs.add(new BasicNameValuePair("happy", happy));
+
+                try {
+                    post.setEntity(new UrlEncodedFormEntity(pairs));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpResponse response = mClient.execute(post);
+                    System.out.println(response.getStatusLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
             }
 		});
+        
 	}
 
 	@Override
