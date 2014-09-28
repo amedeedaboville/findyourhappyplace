@@ -147,7 +147,7 @@ $.ajax({
           ]
           heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
 
-          heatmap.set('radius', heatmap.get('radius') ? null : 60);
+          heatmap.set('radius', heatmap.get('radius') ? null : 30);
 
     },
     error: function(xhr, desc, err) {
@@ -156,6 +156,7 @@ $.ajax({
     }
 });
 
+/*
 var input = (document.getElementById('pac-input'));
 
 map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -210,7 +211,7 @@ google.maps.event.addListener(searchBox, 'places_changed', function() {
 google.maps.event.addListener(map, 'bounds_changed', function() {
         var bounds = map.getBounds();
         searchBox.setBounds(bounds);
-});
+});*/
 
 
 /*
