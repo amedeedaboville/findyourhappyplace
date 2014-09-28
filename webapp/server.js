@@ -37,9 +37,11 @@ app.get('/data', function(req, res){
 });
 
 app.post('/insert', function(req, res){
-    lat = req.latitude;
-    lng = req.longitude;
-    lat = req.latitute
+    console.log("INSERT CALLED!");
+    console.log(req);
+    //lat = req.latitude;
+    //lng = req.longitude;
+    //lat = req.latitute
     //mysql.insert(ltat,long, });
     });
 app.use(express.static(path.join(__dirname + '/static')));
