@@ -17,6 +17,16 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
+function twoDigits(d) {
+    if(0 <= d && d < 10) return "0" + d.toString();
+    if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+    return d.toString();
+}
+ 
+Date.prototype.toMysqlFormat = function() {
+    return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
+};
+ 
 var testvals = [
 [45.507, -73.556, 3],
     [45.508, -73.556, 3],
@@ -49,14 +59,14 @@ app.post('/insert', bodyParser.urlencoded(), function(req, res){
     var lat = req.body.lat;
     var lng = req.body.lng;
     var user_id = req.body.user_id;
-    var happiness = req.body.happiness;
-    var date_time = (new Date()).toLocaleFormat("%Y-%m-%d %H:%M:%S");
-    var insert_query = "INSERT INTO data (user_ID, geolat, geolng, happiness, date_time) ( + [user_id, lat, lng, happiness, 0].join(", ") + ")";
+    var happiness = req.body.happy;
+    var date_time = (new Date()).toMysqlFormat();
+    var insert_query = "INSERT INTO data (user_ID, geolat, geolng, happiness, date_time) values ('" + [user_id, lat, lng, happiness, date_time].join("', '") + "')";
     connection.query(insert_query,
         function(err,rows)
         {
             if(err) { console.log("Error performing insert query : %s ",err ); }
-            res.send(rows);
+            console.log(rows);
         });
     });
 
