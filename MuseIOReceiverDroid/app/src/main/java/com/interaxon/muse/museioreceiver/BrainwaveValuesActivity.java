@@ -1,13 +1,20 @@
 package com.interaxon.muse.museioreceiver;
 
 import java.io.IOException;
-
 import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentSender;
+import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.common.api.GoogleApiClient;
 
-
+import com.google.android.gms.location.LocationClient;
 import com.interaxon.muse.museioreceiver.MuseIOReceiver.MuseConfig;
 import com.interaxon.muse.museioreceiver.MuseIOReceiver.MuseDataListener;
 
@@ -16,22 +23,42 @@ import com.interaxon.muse.museioreceiver.MuseIOReceiver.MuseDataListener;
  * from only one headband.
  */
 public class BrainwaveValuesActivity extends Activity implements
-		MuseDataListener{
+        MuseDataListener, GooglePlayServicesClient.ConnectionCallbacks,
+        GooglePlayServicesClient.OnConnectionFailedListener{
 
-	private MuseIOReceiver museReceiver;
+    private MuseIOReceiver museReceiver;
+    private LocationClient mLocationClient;
+    private Location mCurrentLocation;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.main);
 
-
 		this.museReceiver = new MuseIOReceiver();
 		this.museReceiver.registerMuseDataListener(this);
-
-
-
+        mLocationClient = new LocationClient(this, this, this);
 	}
+    public void sendMessage(View v) {
+        mCurrentLocation = mLocationClient.getLastLocation();
+        ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLatitude)).setText(
+        String.format("%.6f", mCurrentLocation.getLatitude()));
+        ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLongitude)).setText(
+                String.format("%.6f", mCurrentLocation.getLongitude()));
+
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Connect the client.
+        mLocationClient.connect();
+    }
+    @Override
+    protected void onStop() {
+        // Disconnecting the client invalidates it.
+        mLocationClient.disconnect();
+        super.onStop();
+    }
 
 	@Override
 	public void onResume() {
@@ -51,7 +78,7 @@ public class BrainwaveValuesActivity extends Activity implements
 
 	@Override
 	public void receiveMuseElementsAlpha(MuseConfig config, final float[] alpha) {
-		this.runOnUiThread(new Runnable() {
+        this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				((TextView) BrainwaveValuesActivity.this
@@ -100,4 +127,38 @@ public class BrainwaveValuesActivity extends Activity implements
 		// Do nothing
 	}
 
+    @Override
+    public void onConnected(Bundle bundle) {
+        Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDisconnected() {
+        Toast.makeText(this, "Disconnected. Please re-connect.",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+/*
+         * Google Play services can resolve some errors it detects.
+         * If the error has a resolution, try sending an Intent to
+         * start a Google Play services activity that can resolve
+         * error.
+         */
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(
+                       this,
+                       9000);// CONNECTION_FAILURE_RESOLUTION_REQUEST);
+
+            } catch (IntentSender.SendIntentException e) {
+                // Log the error
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Connection Error");
+        }
+    }
 };
