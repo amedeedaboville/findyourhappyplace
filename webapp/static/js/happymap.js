@@ -91,19 +91,31 @@ map_style = [
     }
 ];
 
+var Montreal = new google.maps.LatLng(45.5500, -73.5500);
+
+map = new google.maps.Map(document.getElementById('map-canvas'), {
+  center: Montreal,
+  zoom: 18,
+  mapTypeId: google.maps.MapTypeId.TERRAIN,
+  styles: map_style
+});
 
 // AJAX to get map data
 $.ajax({
     url: '/data',
-    type: 'post',
+    type: 'get',
     success: function(data) {
-        console.log(data);
-        /*var JSONdata = $.parseJSON(data);
-        var outarray = [];
-        for (var i in JSONdata) {
-            outarray.push( { location: new google.maps.LatLng(JSONdata[i][0], JSONdata[i][1]), weight: JSONdata[i][2] } );
-            makeMarker(JSONdata[i]);
-        }*/
+        var heatMapData = [];
+        for (var i in data) {
+            heatMapData.push( { location: new google.maps.LatLng(data[i][0], data[i][1]), weight: data[i][2] } );
+            //makeMarker(JSONdata[i]);
+        }
+
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatMapData
+        });
+
+        heatmap.setMap(map);
     },
     error: function(xhr, desc, err) {
         console.log(xhr);
@@ -111,23 +123,7 @@ $.ajax({
     }
 });
 
-map = new google.maps.Map(document.getElementById('map-canvas'), {
-  center: Montreal,
-  zoom: 18,
-  mapTypeId: google.maps.MapTypeId.TERRAIN
-});
-
-
-var data = "[[45.507,-73.556,3],[45.508,-73.556,3],[45.509,-73.556,2],[45.51,-73.556,1],[45.511,-73.556,2],[45.512,-73.556,4],[45.513,-73.556,2],[45.514,-73.513,1]]";
-
-var JSONdata = $.parseJSON(data);
-var outarray = [];
-
-for (var i in JSONdata) {
-  outarray.push( { location: new google.maps.LatLng(JSONdata[i][0], JSONdata[i][1]), weight: JSONdata[i][2] } );
-  makeMarker(JSONdata[i]);
-}
-
+/*
 function makeMarker(x){
 	var coord = new google.maps.LatLng(x[0],x[1]);
 	var contentString = '<div id="content">'+
@@ -162,20 +158,4 @@ function makeMarker(x){
     		infowindow.open(map,marker);
   	});
 }
-
-/* Data points defined as a mixture of WeightedLocation and LatLng objects */
-var heatMapData = outarray;
-
-var Montreal = new google.maps.LatLng(45.5500, -73.5500);
-
-map = new google.maps.Map(document.getElementById('map-canvas'), {
-  center: Montreal,
-  zoom: 18,
-  mapTypeId: google.maps.MapTypeId.TERRAIN,
-  styles: map_style
-});
-
-var heatmap = new google.maps.visualization.HeatmapLayer({
-  data: heatMapData
-});
-heatmap.setMap(map);
+*/
