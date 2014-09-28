@@ -95,7 +95,7 @@ map_style = [
 // AJAX to get map data
 $.ajax({
     url: '/data',
-    type: 'post',
+    type: 'get',
     success: function(data) {
         console.log(data);
         /*var JSONdata = $.parseJSON(data);
