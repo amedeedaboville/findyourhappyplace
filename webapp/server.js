@@ -5,7 +5,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : '',
+    password : process.env.NODE_DB_PASS,
     port : 3306, //port mysql
     database:'happyplace'
 });
@@ -46,6 +46,6 @@ app.post('/insert', function(req, res){
     });
 app.use(express.static(path.join(__dirname + '/static')));
 
-var server = app.listen(3000, function() {
+var server = app.listen(process.env.NODE_PORT, function() {
     console.log('Listening on port %d', server.address().port);
 });
