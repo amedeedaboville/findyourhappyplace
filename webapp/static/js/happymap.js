@@ -116,10 +116,10 @@ $.ajax({
     url: '/data',
     type: 'get',
     success: function(data) {
+        console.log(data);
         var heatMapData = [];
         for (var i in data) {
-            console.log(data[i][0] +", "+ data[i][1]+"," + data[i][2]);
-            heatMapData.push( { location: new google.maps.LatLng(data[i][0], data[i][1]), weight: data[i][2] +1 } );
+            heatMapData.push( { location: new google.maps.LatLng(data[i].geolat, data[i].geolng), weight: data[i].overall_happiness + 1} );
             //makeMarker(JSONdata[i]);
         }
 
