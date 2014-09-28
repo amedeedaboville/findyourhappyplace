@@ -2,6 +2,7 @@ package com.interaxon.muse.museioreceiver;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 /**
  * This activity is meant to display the alpha, beta, theta and delta values
@@ -91,30 +94,48 @@ public class BrainwaveValuesActivity extends Activity implements
 		this.museReceiver.disconnect();
 	}
 
-	@Override
+    private class UploadHappiness extends AsyncTask<UrlEncodedFormEntity, Integer, Integer> {
+        @Override
+        protected Integer doInBackground(UrlEncodedFormEntity... params) {
+            HttpPost post = new HttpPost("http://yourhappyplace.net/insert");
+            post.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+                System.out.println(params[0].toString());
+                post.setEntity(params[0]);
+            try {
+                HttpResponse response = mClient.execute(post);
+                //Toast.makeText(getApplicationContext(), response.getStatusLine().toString(), Toast.LENGTH_SHORT).show();
+                System.out.println(response.toString());
+                response.getEntity().consumeContent();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+        protected void onPostExecute(Integer result) {
+            //Toast.makeText(getApplicationContext(), "Uploaded " + result + " datapoint", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+        @Override
 	public void receiveMuseElementsAlpha(MuseConfig config, final float[] alpha) {
-        final String latString =  String.format("%.6f", mCurrentLocation.getLatitude());
-        final String lngString =  String.format("%.6f", mCurrentLocation.getLongitude());
-        final String happy = String.format("%d", alpha[2] - alpha[1]);
         this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				//Update Muse information
-                ((TextView) BrainwaveValuesActivity.this
-						.findViewById(R.id.alpha_ch2)).setText(String.format(
-						"%.2f", alpha[1]));
-				((TextView) BrainwaveValuesActivity.this
-						.findViewById(R.id.alpha_ch3)).setText(String.format(
-						"%.2f", alpha[2]));
-                ((TextView) BrainwaveValuesActivity.this
-                        .findViewById(R.id.alpha_difference)).setText(String.format(
-                        "%.2f", (alpha[2]-alpha[1])));
+                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.alpha_ch2)).setText(String.format("%.2f", alpha[1]));
+				((TextView) BrainwaveValuesActivity.this.findViewById(R.id.alpha_ch3)).setText(String.format("%.2f", alpha[2]));
+                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.alpha_difference)).setText(String.format("%.2f", (alpha[2]-alpha[1])));
+
                 //Update Location information
                 mCurrentLocation = mLocationClient.getLastLocation();
+                final String latString =  String.format("%.6f", mCurrentLocation.getLatitude());
+                final String lngString =  String.format("%.6f", mCurrentLocation.getLongitude());
+                final String happy = String.format("%f", alpha[2] - alpha[1]);
+
                 ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLatitude)).setText(latString);
                 ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLongitude)).setText(lngString);
 
-                HttpPost post = new HttpPost("http://yourhappyplace.net/insert");
                 List<NameValuePair> pairs = new ArrayList<NameValuePair>();
                 pairs.add(new BasicNameValuePair("user_id", "1"));
                 pairs.add(new BasicNameValuePair("lat", latString));
@@ -122,17 +143,10 @@ public class BrainwaveValuesActivity extends Activity implements
                 pairs.add(new BasicNameValuePair("happy", happy));
 
                 try {
-                    post.setEntity(new UrlEncodedFormEntity(pairs));
+                    new UploadHappiness().execute(new UrlEncodedFormEntity(pairs, "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                try {
-                    HttpResponse response = mClient.execute(post);
-                    System.out.println(response.getStatusLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
 
             }
 		});
