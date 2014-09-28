@@ -129,8 +129,7 @@ $.ajax({
 
         heatmap.setMap(map);
 
-        function changeGradient() {
-          var gradient = [
+        var gradient = [
             'rgba(0, 255, 255, 0)',
             'rgba(0, 255, 255, 1)',
             'rgba(0, 191, 255, 1)',
@@ -147,11 +146,8 @@ $.ajax({
             'rgba(255, 0, 0, 1)'
           ]
           heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-        }
 
-        function changeRadius() {
           heatmap.set('radius', heatmap.get('radius') ? null : 60);
-        }
 
     },
     error: function(xhr, desc, err) {
