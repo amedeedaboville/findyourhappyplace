@@ -45,6 +45,8 @@ public class BrainwaveValuesActivity extends Activity implements
     private LocationClient mLocationClient;
     private Location mCurrentLocation;
     private HttpClient mClient;
+    private double lAlpha, rAlpha, mHappy;
+    private double numSamples;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -123,31 +125,43 @@ public class BrainwaveValuesActivity extends Activity implements
 			@Override
 			public void run() {
 				//Update Muse information
-                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.alpha_ch2)).setText(String.format("%.2f", alpha[1]));
-				((TextView) BrainwaveValuesActivity.this.findViewById(R.id.alpha_ch3)).setText(String.format("%.2f", alpha[2]));
-                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.alpha_difference)).setText(String.format("%.2f", (alpha[2]-alpha[1])));
-
                 //Update Location information
                 mCurrentLocation = mLocationClient.getLastLocation();
-                final String latString =  String.format("%.6f", mCurrentLocation.getLatitude());
-                final String lngString =  String.format("%.6f", mCurrentLocation.getLongitude());
-                final String happy = String.format("%f", alpha[2] - alpha[1]);
+                lAlpha += alpha[1];
+                rAlpha += alpha[2];
+                mHappy += (rAlpha - lAlpha);
+                numSamples++;
 
-                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLatitude)).setText(latString);
-                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLongitude)).setText(lngString);
+                if(numSamples > 9) {
+                    lAlpha /= numSamples;
+                    rAlpha /= numSamples;
+                    mHappy /= numSamples;
 
-                List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-                pairs.add(new BasicNameValuePair("user_id", "1"));
-                pairs.add(new BasicNameValuePair("lat", latString));
-                pairs.add(new BasicNameValuePair("lng", lngString));
-                pairs.add(new BasicNameValuePair("happy", happy));
+                    ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.alpha_ch2)).setText(String.format("%.2f", lAlpha));
+                    ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.alpha_ch3)).setText(String.format("%.2f", rAlpha));
+                    ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.alpha_difference)).setText(String.format("%.2f", mHappy));
 
-                try {
-                    new UploadHappiness().execute(new UrlEncodedFormEntity(pairs, "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                    final String latString =  String.format("%.6f", mCurrentLocation.getLatitude());
+                    final String lngString =  String.format("%.6f", mCurrentLocation.getLongitude());
+                    ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLatitude)).setText(latString);
+                    ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLongitude)).setText(lngString);
+
+                    List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+                    pairs.add(new BasicNameValuePair("user_id", "1"));
+                    pairs.add(new BasicNameValuePair("lat", latString));
+                    pairs.add(new BasicNameValuePair("lng", lngString));
+                    pairs.add(new BasicNameValuePair("happy", String.format("%.2f", mHappy)));
+
+                    try {
+                        new UploadHappiness().execute(new UrlEncodedFormEntity(pairs, "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    numSamples = 0;
+                    lAlpha = 0;
+                    rAlpha = 0;
+                    mHappy = 0;
                 }
-
             }
 		});
         
