@@ -81,19 +81,26 @@ public class BrainwaveValuesActivity extends Activity implements
         this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				((TextView) BrainwaveValuesActivity.this
+				//Update Muse information
+                ((TextView) BrainwaveValuesActivity.this
 						.findViewById(R.id.alpha_ch2)).setText(String.format(
 						"%.2f", alpha[1]));
 				((TextView) BrainwaveValuesActivity.this
 						.findViewById(R.id.alpha_ch3)).setText(String.format(
 						"%.2f", alpha[2]));
-                /*((TextView) BrainwaveValuesActivity.this
-                        .findViewById(R.id.alpha_difference)).setText(String.format(
-                        "%.2f", alpha[2]-alpha[1]));*/
                 ((TextView) BrainwaveValuesActivity.this
                         .findViewById(R.id.alpha_difference)).setText(String.format(
                         "%.2f", (alpha[2]-alpha[1])));
-			}
+                //Update Location information
+                mCurrentLocation = mLocationClient.getLastLocation();
+                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLatitude)).setText(
+                        String.format("%.6f", mCurrentLocation.getLatitude()));
+                ((TextView) BrainwaveValuesActivity.this.findViewById(R.id.ValueLongitude)).setText(
+                        String.format("%.6f", mCurrentLocation.getLongitude()));
+
+
+
+            }
 		});
 	}
 
