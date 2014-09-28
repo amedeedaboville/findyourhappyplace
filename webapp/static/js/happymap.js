@@ -92,7 +92,7 @@ map_style = [
 ];
 
 /*
-// AJAX to get scan line chart data
+// AJAX to get map data
 $.ajax({
     url: 'http://104.131.105.81/data',
     type: 'post',
