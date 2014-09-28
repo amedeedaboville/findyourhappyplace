@@ -118,7 +118,11 @@ $.ajax({
     success: function(data) {
         var heatMapData = [];
         for (var i in data) {
-            heatMapData.push( { location: new google.maps.LatLng(data[i][0], data[i][1]), weight: data[i][2] } );
+            var n = Math.ceil(data[i][2]*100);
+            for(var t = 0; t < n; t++) {
+                heatMapData.push( { location: new google.maps.LatLng(data[i][0], data[i][1])});//, weight: data[i][2]});
+            }
+            //heatMapData.push( { location: new google.maps.LatLng(data[i][0], data[i][1]), weight: data[i][2] } );
             //makeMarker(JSONdata[i]);
         }
 
