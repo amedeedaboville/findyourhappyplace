@@ -42,14 +42,22 @@ app.get('/data', function(req, res){
 });
 
 app.post('/insert', bodyParser.urlencoded(), function(req, res){
+    res.setHeader('Content-Type', 'text/plain')
+    res.send('received')
     console.log("INSERT CALLED!");
     console.log(req.body);
-	res.setHeader('Content-Type', 'text/plain')
-	res.send('you posted:\n')
-    //lat = req.latitude;
-    //lng = req.longitude;
-    //lat = req.latitute
-    //mysql.insert(ltat,long, });
+    var lat = req.body.lat;
+    var lng = req.body.lng;
+    var user_id = req.body.user_id;
+    var happiness = req.body.happiness;
+    var date_time = (new Date()).toLocaleFormat("%Y-%m-%d %H:%M:%S");
+    var insert_query = "INSERT INTO data (user_ID, geolat, geolng, happiness, date_time) ( + [user_id, lat, lng, happiness, 0].join(", ") + ")";
+    connection.query(insert_query,
+        function(err,rows)
+        {
+            if(err) { console.log("Error performing insert query : %s ",err ); }
+            res.send(rows);
+        });
     });
 
 var server = app.listen(process.env.NODE_PORT, function() {
