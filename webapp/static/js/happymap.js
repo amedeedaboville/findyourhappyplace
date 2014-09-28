@@ -106,7 +106,7 @@ var Montreal = new google.maps.LatLng(45.5058, -73.5556);
 
 map = new google.maps.Map(document.getElementById('map-canvas'), {
   center: Montreal,
-  zoom: 18,
+  zoom: 19,
   mapTypeId: google.maps.MapTypeId.TERRAIN,
   styles: map_style
 });
