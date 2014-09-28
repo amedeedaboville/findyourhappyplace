@@ -102,7 +102,7 @@ map_style = [
     });
 });*/
 
-var Montreal = new google.maps.LatLng(45.5500, -73.5500);
+var Montreal = new google.maps.LatLng(45.5058, -73.5556);
 
 map = new google.maps.Map(document.getElementById('map-canvas'), {
   center: Montreal,
