@@ -19,7 +19,15 @@ app.get('/data', function(req, res){
       res.send(testvals);
 });
 
-//app.use(express.static(path.join(__dirname, 'html')));
+//app.post('/insert', function(req, res){
+//      for (field in req) {
+//          latitue
+//
+//
+//      }
+//      mysql.insert(ltat,long, 
+//});
+app.use(express.static(path.join(__dirname + '/static')));
 
 var server = app.listen(3000, function() {
         console.log('Listening on port %d', server.address().port);
