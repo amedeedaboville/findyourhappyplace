@@ -150,7 +150,7 @@ $.ajax({
         }
 
         function changeRadius() {
-          heatmap.set('radius', heatmap.get('radius') ? null : 20);
+          heatmap.set('radius', heatmap.get('radius') ? null : 60);
         }
 
     },
