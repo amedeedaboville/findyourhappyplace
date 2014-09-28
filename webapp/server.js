@@ -27,7 +27,8 @@ var testvals = [
         res.sendfile('./index.html');
     });
 app.get('/data', function(req, res){
-    connection.query("SELECT * FROM locations WHERE geolat>minlat AND geolat<maxlat AND geolng>minlng AND geolng<maxlng",
+    //connection.query("SELECT * FROM locations WHERE geolat>"+minlat + " AND geolat<maxlat AND geolng>minlng AND geolng<maxlng",
+    connection.query("SELECT * FROM locations",
         function(err,rows)
         {
             if(err) { console.log("Error Selecting : %s ",err ); }
